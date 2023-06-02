@@ -85,3 +85,4 @@ where дата_найма >= '01/01/2019';
 SELECT имя, фамилия, отчество, должность
 from workers
 LIMIT 3 OFFSET 3;
+
