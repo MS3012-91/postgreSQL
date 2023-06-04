@@ -247,3 +247,92 @@ DELETE from Дисциплина
 where описание = 'углубленный курс';
 SELECT *
 FROM Дисциплина;
+
+
+CREATE TABLE Users (
+    id serial PRIMARY KEY,
+    name varchar (50) NOT NULL,
+    surname varchar (50) NOT NULL,
+    isMale boolean,
+    age integer CHECK (age>0) ,
+    tel char (20) Unique,
+    email varchar (50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Tasks (
+    id serial PRIMARY KEY,
+    name varchar (100),
+    description text,
+    createdDate date Default now(),
+    deadline date NOT NULL,
+    salary money DEFAULT 0 NOT NULL CHECK(salary >= money(0)),
+    userId integer REFERENCES Users (id)
+);
+
+
+drop table Users;
+drop table Tasks;
+
+INSERT INTO Users (name, surname, isMale, age, email) VALUES
+('Name1', 'Surname1', true, 20, 'name1@mail.com'),
+('Name2', 'Surname2', false, 22, 'name2@mail.com'),
+('Name3', 'Surname3', true, 18, 'name3@mail.com'),
+('Name4', 'Surname4', true, 20, 'name4@mail.com'),
+('Name5', 'Surname5', true, 25, 'name5@mail.com'),
+('Name6', 'Surname6', true, 28, 'name6@mail.com'),
+('Name7', 'Surname7', false, 21, 'name7@mail.com');
+
+INSERT INTO Tasks(name, deadline, salary, userId) VALUES
+('task1', '2023-06-03', 1000, 1),
+('task1', '2023-06-09', 1200, 3),
+('task1', '2023-06-08', 1040, 4),
+('task2', '2023-06-07', 1220, 1),
+('task2', '2023-06-08', 2000, 7),
+('task3', '2023-06-05', 1400, 2),
+('task3', '2023-06-06', 2500, 7),
+('task4', '2023-06-03', 2050, 6),
+('task5', '2023-06-07', 2430, 7);
+
+SELECT *
+from Users;
+
+SELECT Tasks.name, Tasks.deadline, Users.surname, Users.email
+from Tasks, Users
+WHERE Tasks.userid = Users.id and Tasks.name = 'task1';
+
+SELECT Tasks.name, Tasks.deadline, Users.surname, Users.email
+from Tasks, Users
+WHERE Tasks.userid = Users.id and Users.email='name1@mail.com';
+
+SELECT name, surname, ismale, age, email
+from Users
+where ismale='true' and age>20
+ORDER by age DESC ;
+
+SELECT Users.name, Users.surname, Users.ismale, Tasks.name
+from Users, Tasks
+where tasks.userId=Users.id and Users.ismale=false;
+
+
+update users 
+set email = 'name11@mail.com'
+where name = 'Name3';
+
+DELETE from Users 
+where id='3';
+
+SELECT name, deadline 
+from tasks
+where deadline BETWEEN '05.06.2023' and '08.06.2023';
+
+update tasks 
+set deadline = deadline+2
+where deadline BETWEEN '05.06.2023' and '08.06.2023';
+
+UPDATE tasks
+set salary = salary *1.2
+where name = 'task2';
+
+
+CREATE DATABASE DB;
+
