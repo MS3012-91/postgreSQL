@@ -482,3 +482,4 @@ from Product
 Where Sales.idProduct = Product.id and Sales.id=2;
 
 
+CREATE DATABASE Practice;
